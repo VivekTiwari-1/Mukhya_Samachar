@@ -16,7 +16,7 @@ export class News extends Component {
             articles: [],
             loading: false,
             page: 1,
-            totalResults : 0 
+            totalResults: 0
         }
         document.title = `Mukhya Samachar - ${this.capitalizeFirstLetter(this.props.category)}`
     }
@@ -24,16 +24,20 @@ export class News extends Component {
     //  UpdateNews function is wtitten to optimize three functions written below 
 
     async updateNews() {
+        this.props.setProgress(10);
         let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=4f08ab3e48e549cc81fdcd93d5890d2b&page=${this.state.page}&pagesize=${this.props.pagesize}`
         this.setState({ loading: true });
         let data = await fetch(url);
+        this.props.setProgress(40);
         let parsedData = await data.json();
+        this.props.setProgress(70);
         console.log(parsedData)
         this.setState({
             articles: parsedData.articles,
             totalResults: parsedData.totalResults,
             loading: false
         })
+        this.props.setProgress(100);
     }
 
     async componentDidMount() {
@@ -83,8 +87,8 @@ export class News extends Component {
         this.updateNews()
     }
 
-    fetchMoreData = async () =>{
-        this.setState({ page : this.state.page + 1})
+    fetchMoreData = async () => {
+        this.setState({ page: this.state.page + 1 })
         let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=4f08ab3e48e549cc81fdcd93d5890d2b&page=${this.state.page}&pagesize=${this.props.pagesize}`
         this.setState({ loading: true });
         let data = await fetch(url);
@@ -95,48 +99,52 @@ export class News extends Component {
             totalResults: parsedData.totalResults,
             loading: false
         })
-    } 
+    }
 
     render() {
         return (
-            // <div className='container my-4'> --> for buttons
             <>
-                <h2 className='text-center' style={{ margin: "70px" }}>Mukhya Samachar - {this.capitalizeFirstLetter(this.props.category)}</h2>
-                {/* { this.state.loading && <Spinner/>} --> for prev and next buttons*/}
+             {/* <div className='container my-4'> --> for buttons */}
 
-                <InfiniteScroll
-                    dataLength={this.state.articles.length}
-                    next={this.fetchMoreData}
-                    hasMore={this.state.articles.length !== this.totalResults}
-                    loader={<Spinner/>}
-                >
+                    <h2 className='text-center' style={{ margin: "70px" }}>Mukhya Samachar - {this.capitalizeFirstLetter(this.props.category)}</h2>
+                    {/* { this.state.loading && <Spinner/>} --> for prev and next buttons*/}
 
-                <div className="container">
-                <div className="row my-4">
-                    {/* { !this.state.loading && this.state.articles.map((element) => {   -->Used for prev and next button */}
-                    {this.state.articles.map((element) => {
-                        return <div className="col-md-3" key={element.url}>
-                            {/* <NewsItem title={element.title.slice(0, 50)} description={element.description.slice(0, 88)} newsUrl={element.url} imgUrl={element.urlToImage}/> 
+                    <InfiniteScroll
+                        dataLength={this.state.articles.length}
+                        next={this.fetchMoreData}
+                        hasMore={this.state.articles.length !== this.totalResults}
+                        loader={<Spinner />}
+                    >
+
+                        <div className="container">
+                            <div className="row my-4">
+                                {/* { !this.state.loading && this.state.articles.map((element) => {   -->Used for prev and next button */}
+                                {this.state.articles.map((element) => {
+                                    return <div className="col-md-3" key={element.url}>
+                                        {/* <NewsItem title={element.title.slice(0, 50)} description={element.description.slice(0, 88)} newsUrl={element.url} imgUrl={element.urlToImage}/> 
 
                                 element name is used everywhere because it is used as key in map to iterate values
                                 All props name like title, urlImage, url, publishedAt, etc. are taken according to names use in newAPI which is neccessary and can't be changed */}
 
-                            <NewsItem title={element.title} description={element.description} newsUrl={element.url} imgUrl={element.urlToImage} author={element.author} time={element.publishedAt} />
+                                        <NewsItem title={element.title} description={element.description} newsUrl={element.url} imgUrl={element.urlToImage} author={element.author} time={element.publishedAt} />
+                                    </div>
+                                })}
+                            </div>
                         </div>
-                    })}
-                </div>
-                </div>
 
-                </InfiniteScroll>
+                    </InfiniteScroll>
 
-                <div className="container d-flex justify-content-between">
+
+                    {/* Prev and Next buttons */}
+                    {/* <div className="container d-flex justify-content-between">
                     <button disabled={this.state.page <= 1} type="button" className="btn btn-dark" onClick={this.handlePrevClick}>&larr; Previous</button>
                     <button disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pagesize)} type="button" className="btn btn-dark" onClick={this.handleNextClick}>Next &rarr;</button>
-                </div>
+                </div> */}
 
-                </>
-            // </div>
-            
+             {/* </div> */}
+
+            </>
+
         )
     }
 }
