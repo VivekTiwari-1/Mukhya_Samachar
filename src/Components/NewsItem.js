@@ -5,7 +5,7 @@ const NewsItem = (props) => {
         return (
             <div>
                 <div className="card">
-                    <img src={imgUrl?imgUrl:"https://unsplash.com/photos/E7q00J_8N7A"} className="card-img-top" alt="..." />
+                    <img src={imgUrl?imgUrl:  "https://content.fortune.com/wp-content/uploads/2023/08/GettyImages-171212132-e1691943827247.jpg?resize=1200,600"} className="card-img-top" alt="..." />
                     <div className="card-body">
                         <h5 className="card-title">{title}</h5>
                         <p className="card-text">{description}</p>

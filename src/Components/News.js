@@ -6,10 +6,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const News = (props) => {
 
     const [articles, setArticles] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
     const [totalResults, setTotalResults] = useState(0)
-    // document.title = `Mukhya Samachar - ${capitalizeFirstLetter(props.category)}`
 
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -34,6 +33,8 @@ const News = (props) => {
     }
 
     useEffect( () => {
+
+        document.title = `Mukhya Samachar - ${capitalizeFirstLetter(props.category)}`
         updateNews()
     },[])
 
@@ -48,9 +49,8 @@ const News = (props) => {
     // }
 
     const fetchMoreData = async () => {
+        let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=4f08ab3e48e549cc81fdcd93d5890d2b&page=${page+1}&pagesize=${props.pagesize}`
         setPage(page + 1)
-        let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=4f08ab3e48e549cc81fdcd93d5890d2b&page=${page}&pagesize=${props.pagesize}`
-        setLoading(true)
         let data = await fetch(url);
         let parsedData = await data.json();
         console.log(parsedData)
@@ -62,8 +62,8 @@ const News = (props) => {
             <>
              {/* <div className='container my-4'> --> for buttons */}
 
-                    <h2 className='text-center' style={{ margin: "70px" }}>Mukhya Samachar - {capitalizeFirstLetter(props.category)}</h2>
-                    {/* { loading && <Spinner/>} --> for prev and next buttons*/}
+                    <h2 className='text-center' style={{ margin: "120px 0 70px 0" }}>Mukhya Samachar - {capitalizeFirstLetter(props.category)}</h2>
+                    { loading && <Spinner/>}
 
                     <InfiniteScroll
                         dataLength={articles.length}
