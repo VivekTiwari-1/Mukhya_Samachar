@@ -79,10 +79,11 @@ const News = (props) => {
                                     return <div className="col-md-3" key={element.url}>
                                         {/* <NewsItem title={element.title.slice(0, 50)} description={element.description.slice(0, 88)} newsUrl={element.url} imgUrl={element.urlToImage}/> 
 
-                                element name is used everywhere because it is used as key in map to iterate values
-                                All props name like title, urlImage, url, publishedAt, etc. are taken according to names use in newAPI which is neccessary and can't be changed */}
+                                'element' is used everywhere because it is used as key in map to iterate values
+                                All props name like title, urlImage, url, publishedAt, etc. are taken according to names use in newAPI which is neccessary and can't be changed 
+                                --> Take a look of sampleInput.json file for data taken by newsAPI*/}
 
-                                        <NewsItem title={element.title} description={element.description} newsUrl={element.url} imgUrl={element.urlToImage} author={element.author} time={element.publishedAt} />
+                                        <NewsItem title={element.title} description={element.description} newsUrl={element.url} imgUrl={element.urlToImage} sourceName={element.source.name} author={element.author} time={element.publishedAt} />
                                     </div>
                                 })}
                             </div>
