@@ -15,11 +15,28 @@ import {
 const App = () => {
 
   const [progress, setProgress] = useState(0)
+  const [mode, setMode] = useState('light');
+  const [modeText, setModeText] = useState("Enable DarkMode");
+
+  const toggleMode = () => {
+    if (mode === "light") {
+      setMode("dark")
+      setModeText("Enable LightMode")
+      document.body.style.backgroundColor = "black";
+      document.body.style.color= "white";
+    }
+    else {
+      setMode("light");
+      setModeText("Enable DarkMode")
+      document.body.style.backgroundColor = "white";
+      
+    }
+  }
 
     return (
       <div>
         <Router>
-          <Navbar />
+          <Navbar mode={mode} toggleMode={toggleMode} modeText={modeText}/>
           <LoadingBar
             height={2}
             color='#f11946'
