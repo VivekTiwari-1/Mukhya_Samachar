@@ -11,7 +11,6 @@ const NewsItem = (props) => {
                     <div className="card-body">
                         <h5 className="card-title">{title}</h5>
                         <p className="card-text">{description}</p>
-                        
                         <p className='card-text'><small className='text-muted'>{sourceName?sourceName:""} | By {author?author:"Unknown"} on {new Date(time).toGMTString()}</small></p>
                         <a href={newsUrl} className="btn btn-sm btn-dark">Read More</a>
                     </div>
