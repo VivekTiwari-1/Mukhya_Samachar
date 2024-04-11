@@ -24,19 +24,19 @@ const News = (props) => {
         props.setProgress(40);
         let parsedData = await data.json();
         props.setProgress(70);
-        console.log(parsedData)
+        // console.log(parsedData)
         setArticles(parsedData.articles)
         setTotalResults(parsedData.totalResults)
-        setLoading(false)
-    
+        setLoading(false);
+
         props.setProgress(100);
     }
 
-    useEffect( () => {
+    useEffect(() => {
 
         document.title = `Mukhya Samachar - ${capitalizeFirstLetter(props.category)}`
         updateNews()
-    },[])
+    }, [])
 
     // const handlePrevClick = async () => {
     //     setPage(page-1)
@@ -49,7 +49,7 @@ const News = (props) => {
     // }
 
     const fetchMoreData = async () => {
-        let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=4f08ab3e48e549cc81fdcd93d5890d2b&page=${page+1}&pagesize=${props.pagesize}`
+        let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=4f08ab3e48e549cc81fdcd93d5890d2b&page=${page + 1}&pagesize=${props.pagesize}`
         setPage(page + 1)
         let data = await fetch(url);
         let parsedData = await data.json();
@@ -58,51 +58,51 @@ const News = (props) => {
         setTotalResults(parsedData.totalResults)
     }
 
-        return (
-            <>
-             {/* <div className='container my-4'> --> for buttons */}
+    return (
+        <>
+            {/* <div className='container my-4'> --> for buttons */}
 
-                    <h2 className='text-center' style={{ margin: "120px 0 70px 0" }}>Mukhya Samachar - {capitalizeFirstLetter(props.category)}</h2>
-                    { loading && <Spinner/>}
+            <h2 className='text-center' style={{ margin: "120px 0 70px 0" }}>Mukhya Samachar - {capitalizeFirstLetter(props.category)}</h2>
+            {loading && <Spinner />}
 
-                    <InfiniteScroll
-                        dataLength={articles.length}
-                        next={fetchMoreData}
-                        hasMore={articles.length !== totalResults}
-                        loader={<Spinner />}
-                    >
+            <InfiniteScroll
+                dataLength={articles.length}
+                next={fetchMoreData}
+                hasMore={articles.length !== totalResults}
+                loader={<Spinner />}
+            >
 
-                        <div className="container">
-                            <div className="row my-4">
-                                {/* { !loading && articles.map((element) => {   -->Used for prev and next button */}
-                                {articles.map((element) => {
-                                    return <div className="col-md-3" key={element.url}>
-                                        {/* <NewsItem title={element.title.slice(0, 50)} description={element.description.slice(0, 88)} newsUrl={element.url} imgUrl={element.urlToImage}/> 
+                <div className="container">
+                    <div className="row my-4">
+                        {/* { !loading && articles.map((element) => {   -->Used for prev and next button */}
+                        {articles.map((element) => {
+                            return <div className="col-md-3" key={element.url}>
+                                {/* <NewsItem title={element.title.slice(0, 50)} description={element.description.slice(0, 88)} newsUrl={element.url} imgUrl={element.urlToImage}/> 
 
                                 'element' is used everywhere because it is used as key in map to iterate values
                                 All props name like title, urlImage, url, publishedAt, etc. are taken according to names use in newAPI which is neccessary and can't be changed 
                                 --> Take a look of sampleInput.json file for data taken by newsAPI*/}
 
-                                        <NewsItem title={element.title} description={element.description} newsUrl={element.url} imgUrl={element.urlToImage} sourceName={element.source.name} author={element.author} time={element.publishedAt} />
-                                    </div>
-                                })}
+                                <NewsItem title={element.title} description={element.description} newsUrl={element.url} imgUrl={element.urlToImage} sourceName={element.source.name} author={element.author} time={element.publishedAt} />
                             </div>
-                        </div>
+                        })}
+                    </div>
+                </div>
 
-                    </InfiniteScroll>
+            </InfiniteScroll>
 
 
-                    {/* Prev and Next buttons */}
-                    {/* <div className="container d-flex justify-content-between">
+            {/* Prev and Next buttons */}
+            {/* <div className="container d-flex justify-content-between">
                     <button disabled={page <= 1} type="button" className="btn btn-dark" onClick={handlePrevClick}>&larr; Previous</button>
                     <button disabled={page + 1 > Math.ceil(totalResults / props.pagesize)} type="button" className="btn btn-dark" onClick={handleNextClick}>Next &rarr;</button>
                 </div> */}
 
-             {/* </div> */}
+            {/* </div> */}
 
-            </>
+        </>
 
-        )
+    )
 }
 
 export default News
